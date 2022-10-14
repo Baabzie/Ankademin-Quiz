@@ -2,33 +2,30 @@ questionsArray = [
     {
         question: "Stockholm är Finlands huvudstad.",
         type: "trueFalse",
-        alternativ: [],
+        alternative: [],
         answer: [false]
     },
     {
-        question: "Kolombia ligger i Sydamerika.",
-        type: "trueFalse",
-        alternativ: [],
-        answer: [true]
+        question: "Vilket land ligger inte i Europa?",
+        type: "oneAlternative",
+        alternative: ["Moldavien", "Israel", "Tjeckien", "Slovenien"],
+        answer: ["Israel"]
     },
     {
-        question: "Istanbul är Turkiets huvudstad.",
-        type: "trueFalse",
-        alternativ: [],
-        answer: [false]
-    },
-    {
-        question: "Kina har störst befolkning i världen.",
-        type: "trueFalse",
-        alternativ: [],
-        answer: [true]
+        question: "Markera alla länder som ligger i Sydamerika.",
+        type: "multipleAlternative",
+        alternative: ["Kolombia", "Mexiko", "Brasilien", "Nicaragua"],
+        answer: ["Kolombia", "Brasilien"]
     }
 ];
 
 console.log (questionsArray);
 
 let startBtn = document.querySelector("#start-btn");
+let content = document.querySelector("#content");
 let answerArray = [];
+
+// True-function
 
 let trueFunction = (event) => {
     if (questionsArray[answerArray.length].answer[0]){
@@ -36,9 +33,11 @@ let trueFunction = (event) => {
     } else {
         answerArray.push("Fel!");
     }
-    event.target.parentElement.remove();
+    content.innerHTML = "";
     quizFunction(questionsArray);
 };
+
+// False-function
 
 let falseFunction = (event) => {
     if (!questionsArray[answerArray.length].answer[0]){
@@ -46,7 +45,7 @@ let falseFunction = (event) => {
     } else {
         answerArray.push("Fel!");
     }
-    event.target.parentElement.remove();
+    content.innerHTML = "";
     quizFunction(questionsArray);
 };
 
@@ -56,8 +55,10 @@ let quizFunction = (arr) => {
     let questionForUser = document.createElement("h2");
     questionForUser.innerText = arr[answerArray.length].question;
     questionDiv.append(questionForUser);
-    document.querySelector("body").append(questionDiv);
+    content.append(questionDiv);
     // if (answerArray.length === arr.length)
+
+    // Funktion för Sant/Falsk-frågor.
     if (arr[answerArray.length].type === "trueFalse") {
         let trueBtn = document.createElement("button");
         trueBtn.innerText = "Sant";
@@ -67,11 +68,40 @@ let quizFunction = (arr) => {
         falseBtn.innerText = "Falskt";
         falseBtn.addEventListener ("click", falseFunction);
         questionDiv.append(falseBtn)
-    };
+    }
+    // Funktion för radio-frågor.
+    else if (arr[answerArray.length].type === "oneAlternative") {
+        (arr[answerArray.length].alternative).forEach((alt) => {
+            let altRadio = document.createElement("input");
+            altRadio.setAttribute("type", "radio");
+            altRadio.setAttribute("name", "radio-btn");
+            if (alt === arr[answerArray.length].answer[0]) {
+                altRadio.setAttribute("value", "Rätt!");
+            }
+            else {
+                altRadio.setAttribute("value", "Fel!");
+            };
+            altRadio.id = alt;
+            let altLabel = document.createElement("label");
+            altLabel.setAttribute("for", alt);
+            altLabel.innerHTML = alt + ":";
+            questionDiv.append(altLabel, altRadio, document.createElement("br"));
+        });
+        let submitBtn = document.createElement("button");
+        submitBtn.innerText = "Svara";
+        submitBtn.addEventListener ("click", () => {
+            let answer = document.querySelector("[name='radio-btn']:checked").value;
+            answerArray.push(answer);
+            content.innerHTML = "";
+            quizFunction(arr);
+        });
+        questionDiv.append(document.createElement("br"), submitBtn);
+    }
     console.log(answerArray);
 };
 
 startBtn.addEventListener("click", (event) => {
     answerArray = [];
+    content.innerHTML = "";
     quizFunction(questionsArray);
 });
