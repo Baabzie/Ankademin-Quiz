@@ -85,12 +85,65 @@ let quizFunction = (arr) => {
         submitBtn.innerText = "Svara";
         // Skapar funktion för Svara-knappen.
         submitBtn.addEventListener ("click", () => {
-            let answer = document.querySelector("[name='radio-btn']:checked").value;
-            answerArray.push(answer);
-            content.innerHTML = "";
-            quizFunction(arr);
+            // Om du har klickat i en radio-knapp så ....
+            if (document.querySelector("[name='radio-btn']:checked")) {
+                let answer = document.querySelector("[name='radio-btn']:checked").value;
+                answerArray.push(answer);
+                content.innerHTML = "";
+                quizFunction(arr);
+            }
+            // ...annars får du en "alert" om att göra detta.
+            else {
+                alert("Vänligen klicka i ett alternativ!");
+            };
         });
         questionDiv.append(document.createElement("br"), submitBtn);
+    }
+    // Funktion för flersvarsfrågor.
+    else if (arr[answerArray.length].type === "multipleAlternative") {
+        (arr[answerArray.length].alternative).forEach((alt) => {
+            let altCheckbox = document.createElement("input");
+            altCheckbox.setAttribute("type", "checkbox");
+            altCheckbox.setAttribute("name", "checkbox-btn");
+            // Avgör ifall värdet på checkbox-knappen är Rätt...
+            if ((arr[answerArray.length].answer).includes(alt)) {
+                altCheckbox.setAttribute("value", "Rätt!");
+            }
+            //... eller Fel.
+            else {
+                altCheckbox.setAttribute("value", "Fel!");
+            };
+            altCheckbox.id = alt;
+            let altLabel = document.createElement("label");
+            altLabel.setAttribute("for", alt);
+            altLabel.innerHTML = alt + ":";
+            questionDiv.append(altLabel, altCheckbox, document.createElement("br"));
+        });
+        let submitBtn = document.createElement("button");
+        submitBtn.innerText = "Svara";
+        // Skapar funktion för Svara-knappen.
+        submitBtn.addEventListener ("click", () => {
+            // Om du har klickat i minst en checkbox-knapp så ....
+            if (document.querySelector("[name='checkbox-btn']:checked")) {
+                allAnswersFunction = () => {
+                    let allAnswers = [];
+                    (document.querySelectorAll("[name='checkbox-btn']:checked")).forEach((obj) => {
+                        allAnswers.push(obj.value);
+                    });
+                    return allAnswers;
+                };
+                console.log(allAnswersFunction());
+                answerArray.push(answer);
+                content.innerHTML = "";
+                quizFunction(arr);
+            }
+            // ...annars får du en "alert" om att göra detta.
+            else {
+                alert("Vänligen klicka i minst ett alternativ!");
+            };
+        });
+        questionDiv.append(document.createElement("br"), submitBtn);
+
     }
     console.log(answerArray);
 };
