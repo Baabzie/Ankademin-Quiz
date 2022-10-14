@@ -19,35 +19,9 @@ questionsArray = [
     }
 ];
 
-console.log (questionsArray);
-
 let startBtn = document.querySelector("#start-btn");
 let content = document.querySelector("#content");
 let answerArray = [];
-
-// True-function
-
-let trueFunction = (event) => {
-    if (questionsArray[answerArray.length].answer[0]){
-        answerArray.push("Rätt!");
-    } else {
-        answerArray.push("Fel!");
-    }
-    content.innerHTML = "";
-    quizFunction(questionsArray);
-};
-
-// False-function
-
-let falseFunction = (event) => {
-    if (!questionsArray[answerArray.length].answer[0]){
-        answerArray.push("Rätt!");
-    } else {
-        answerArray.push("Fel!");
-    }
-    content.innerHTML = "";
-    quizFunction(questionsArray);
-};
 
 let quizFunction = (arr) => {
     let questionDiv =document.createElement("div");
@@ -62,11 +36,29 @@ let quizFunction = (arr) => {
     if (arr[answerArray.length].type === "trueFalse") {
         let trueBtn = document.createElement("button");
         trueBtn.innerText = "Sant";
-        trueBtn.addEventListener ("click", trueFunction);
+        // Skapar funktion till Sant-knappen.
+        trueBtn.addEventListener ("click", () => {
+            if (arr[answerArray.length].answer[0]){
+                answerArray.push("Rätt!");
+            } else {
+                answerArray.push("Fel!");
+            }
+            content.innerHTML = "";
+            quizFunction(arr);
+        });
         questionDiv.append(trueBtn)
         let falseBtn = document.createElement("button");
         falseBtn.innerText = "Falskt";
-        falseBtn.addEventListener ("click", falseFunction);
+        // Skapar funktion till Falskt-knappen.
+        falseBtn.addEventListener ("click", () => {
+            if (!arr[answerArray.length].answer[0]){
+                answerArray.push("Rätt!");
+            } else {
+                answerArray.push("Fel!");
+            }
+            content.innerHTML = "";
+            quizFunction(arr);
+        });
         questionDiv.append(falseBtn)
     }
     // Funktion för radio-frågor.
@@ -75,9 +67,11 @@ let quizFunction = (arr) => {
             let altRadio = document.createElement("input");
             altRadio.setAttribute("type", "radio");
             altRadio.setAttribute("name", "radio-btn");
+            // Avgör ifall värdet på radioknappen är Rätt...
             if (alt === arr[answerArray.length].answer[0]) {
                 altRadio.setAttribute("value", "Rätt!");
             }
+            //... eller Fel.
             else {
                 altRadio.setAttribute("value", "Fel!");
             };
@@ -89,6 +83,7 @@ let quizFunction = (arr) => {
         });
         let submitBtn = document.createElement("button");
         submitBtn.innerText = "Svara";
+        // Skapar funktion för Svara-knappen.
         submitBtn.addEventListener ("click", () => {
             let answer = document.querySelector("[name='radio-btn']:checked").value;
             answerArray.push(answer);
