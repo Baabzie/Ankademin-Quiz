@@ -1,6 +1,6 @@
 questionsArray = [
     {
-        question: "Stockholm är Finlands huvudstad.",
+        question: "Helsingborg är Finlands huvudstad.",
         type: "trueFalse",
         alternative: [],
         answer: [false]
@@ -16,28 +16,98 @@ questionsArray = [
         type: "multipleAlternative",
         alternative: ["Kolombia", "Mexiko", "Brasilien", "Nicaragua"],
         answer: ["Brasilien", "Kolombia"]
-    }
+    },
+    {
+        question: "Vilket av dessa länder ligger i Afrika?",
+        type: "oneAlternative",
+        alternative: ["Saudiarabien", "Israel", "Libyen", "Sri Lanka"],
+        answer: ["Libyen"]
+    },
+    {
+        question: "Sofia är Bulgariens huvudstad.",
+        type: "trueFalse",
+        alternative: [],
+        answer: [true]
+    },
+    {
+        question: "Markera de tre befolkningsrikaste länderna.",
+        type: "multipleAlternative",
+        alternative: ["USA", "Kina", "Indonesien", "Indien"],
+        answer: ["Kina", "Indien", "USA"]
+    },
+    {
+        question: "Vilket av dessa storstadsområden har störst befolkning?",
+        type: "oneAlternative",
+        alternative: ["Beijing", "Bombay", "Mexico City", "Shanghai", "Delhi", "Jakarta", "Tokyo", "Seoul",],
+        answer: ["Tokyo"]
+    },
+    {
+        question: "Markera alla länder som inte gränsar till något hav.",
+        type: "multipleAlternative",
+        alternative: ["Ryssland", "Mongoliet", "Tjeckien", "Indien", "Österrike", "Afghanistan", "Tyskland"],
+        answer: ["Tjeckien", "Mongoliet", "Österrike", "Afghanistan"]
+    },
+    {
+        question: "Sydney är Australiens huvudstad.",
+        type: "trueFalse",
+        alternative: [],
+        answer: [false]
+    },
+    {
+        question: "Det finns 58 monarkier i världen.",
+        type: "trueFalse",
+        alternative: [],
+        answer: [false]
+    },
 ];
 
 let startBtn = document.querySelector("#start-btn");
 let content = document.querySelector("#content");
 let answerArray = [];
 
+startBtn.addEventListener("click", (event) => {
+    answerArray = [];
+    content.innerHTML = "";
+    quizFunction(questionsArray);
+});
+
 let quizFunction = (arr) => {
-    console.log(answerArray);
     let questionDiv =document.createElement("div");
     questionDiv.class = "questions";
     content.append(questionDiv);
+    // Ifall användaren gått igenom alla frågor....
     if (answerArray.length === arr.length) {
         let answerForUser = document.createElement("h2");
         answerForUser.innerText = "Du är klar!";
-        questionDiv.append(answerForUser);
+        questionDiv.append(answerForUser, document.createElement("br"));
+        // Skapar resultat-knapp.
+        let resultBtn = document.createElement("button");
+        resultBtn.innerText = "Visa resultat!";
+        // Funktionen för resultat-knapp.
+        resultBtn.addEventListener ("click", (event) => {
+            //Tar bort resultat-knapp och h2 "Du är klar!"-text och visar alla frågor och ifall användaren har rätt eller fel.
+            event.target.remove();
+            answerForUser.remove();
+            let points = 0;
+            answerArray.forEach((answer, index) => {
+                if (answer === "Rätt!") {
+                    points++;
+                }
+                let questionForUser = document.createElement("h3");
+                questionForUser.innerText = arr[index].question;
+                questionDiv.append(questionForUser, answer, document.createElement("br"));
+            })
+            let score = document.createElement("h2");
+            score.innerHTML = ("" + points + "/" + arr.length + " möjliga poäng!")
+            questionDiv.append(score);
+        })
+        questionDiv.append(resultBtn);
     }
+    //...annars.
     else {
         let questionForUser = document.createElement("h2");
         questionForUser.innerText = arr[answerArray.length].question;
         questionDiv.append(questionForUser);
-        // if (answerArray.length === arr.length)
 
         // Funktion för Sant/Falsk-frågor.
         if (arr[answerArray.length].type === "trueFalse") {
@@ -166,9 +236,3 @@ let quizFunction = (arr) => {
         }
     }
 }
-
-startBtn.addEventListener("click", (event) => {
-    answerArray = [];
-    content.innerHTML = "";
-    quizFunction(questionsArray);
-});
