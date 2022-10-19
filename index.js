@@ -1,196 +1,107 @@
 allQuiz = [
-    [
     {
-        question: "Helsingborg är Finlands huvudstad.",
-        type: "trueFalse",
-        alternative: [],
-        answer: [false],
-        correctString: "Helsingborg är en ort i Sverige. Helsingfors är Finlands huvudstad."
+        name: "Geografi Quiz",
+        quiz:
+        [
+            {
+                question: "Helsingborg är Finlands huvudstad.",
+                type: "trueFalse",
+                alternative: [],
+                answer: [false],
+                correctString: "Helsingborg är en ort i Sverige. Helsingfors är Finlands huvudstad."
+            },
+            {
+                question: "Vilket land ligger inte i Europa?",
+                type: "oneAlternative",
+                alternative: ["Moldavien", "Israel", "Tjeckien", "Slovenien"],
+                answer: ["Israel"],
+                correctString: "Israel är det land som inte ligger i Europa."
+            },
+            {
+                question: "Markera alla länder som ligger i Sydamerika.",
+                type: "multipleAlternative",
+                alternative: ["Kolombia", "Mexiko", "Brasilien", "Nicaragua"],
+                answer: ["Brasilien", "Kolombia"],
+                correctString: "Brasilien och Kolombia ligger i Sydamerika, Mexiko och Nicaragua ligger i Centralamerika som tillhär Nordamerika."
+            },
+            {
+                question: "Vilket av dessa länder ligger i Afrika?",
+                type: "oneAlternative",
+                alternative: ["Saudiarabien", "Israel", "Libyen", "Sri Lanka"],
+                answer: ["Libyen"],
+                correctString: "Libyen ligger i Afrika."
+            },
+            {
+                question: "Sofia är Bulgariens huvudstad.",
+                type: "trueFalse",
+                alternative: [],
+                answer: [true],
+                correctString: "Sofia är Bulgariens huvudstad."
+            },
+            {
+                question: "Markera de tre befolkningsrikaste länderna.",
+                type: "multipleAlternative",
+                alternative: ["USA", "Kina", "Indonesien", "Indien"],
+                answer: ["Kina", "Indien", "USA"],
+                correctString: "Kina, Indien och USA är de tre befolkningsrikaste länderna."
+            },
+            {
+                question: "Vilket av dessa storstadsområden har störst befolkning?",
+                type: "oneAlternative",
+                alternative: ["Beijing", "Bombay", "Mexico City", "Shanghai", "Delhi", "Jakarta", "Tokyo", "Seoul",],
+                answer: ["Tokyo"],
+                correctString: "Tokyos storstadsområde är det storstadsområde med störst befolkning i världen."
+            },
+            {
+                question: "Markera alla länder som inte gränsar till något hav.",
+                type: "multipleAlternative",
+                alternative: ["Ryssland", "Mongoliet", "Tjeckien", "Indien", "Österrike", "Afghanistan", "Tyskland"],
+                answer: ["Tjeckien", "Mongoliet", "Österrike", "Afghanistan"],
+                correctString: "Tjeckien, Mongoliet, Österrike och Afganistan gränsar inte till något hav. Ryssland, Indien och Tyskland gränsar alla till ett eller flera hav."
+            },
+            {
+                question: "Sydney är Australiens huvudstad.",
+                type: "trueFalse",
+                alternative: [],
+                answer: [false],
+                correctString: "Sydney är inte Australiens huvudstad. Australiens huvudstad är Canberra."
+            },
+            {
+                question: "Det finns 58 monarkier i världen.",
+                type: "trueFalse",
+                alternative: [],
+                answer: [false],
+                correctString: "Det finns inte 58 monarkier i världen utan 'bara' 29."
+            },
+        ]
     },
     {
-        question: "Vilket land ligger inte i Europa?",
-        type: "oneAlternative",
-        alternative: ["Moldavien", "Israel", "Tjeckien", "Slovenien"],
-        answer: ["Israel"],
-        correctString: "Israel är det land som inte ligger i Europa."
+        name: "Elektriker Quiz",
+        quiz:
+        [
+            {
+                question: "En nydragen neutralledare ska enligt svenska regler ha blå färg.",
+                type: "trueFalse",
+                alternative: [],
+                answer: [true],
+                correctString: "En nydragen neutralledare ska enligt svenska regler ha blå färg."
+            },
+            {
+                question: "Vilken av följande strömstyrkor är INTE en standard på säkringar i Sverige?",
+                type: "oneAlternative",
+                alternative: ["10A", "14A", "16A"],
+                answer: ["14A"],
+                correctString: "Det finns ingen säkring i Sverige med strömstyrkan 14A."
+            },
+            {
+                question: "Markera alla de färger på en ledare som du INTE under några som helst omständingheter får använda som en tändtråd.",
+                type: "multipleAlternative",
+                alternative: ["Brun", "Svart", "Grå", "Blå", "Gul/Grön"],
+                answer: ["Gul/Grön"],
+                correctString: "Du får aldrig använda en gul/grön ledare som en tändtråd. En blå ledare får bara vid vissa tillfällen användas som en tändtråd."
+            }
+        ]
     },
-    {
-        question: "Markera alla länder som ligger i Sydamerika.",
-        type: "multipleAlternative",
-        alternative: ["Kolombia", "Mexiko", "Brasilien", "Nicaragua"],
-        answer: ["Brasilien", "Kolombia"],
-        correctString: "Brasilien och Kolombia ligger i Sydamerika, Mexiko och Nicaragua ligger i Centralamerika som tillhär Nordamerika."
-    },
-    {
-        question: "Vilket av dessa länder ligger i Afrika?",
-        type: "oneAlternative",
-        alternative: ["Saudiarabien", "Israel", "Libyen", "Sri Lanka"],
-        answer: ["Libyen"],
-        correctString: "Libyen ligger i Afrika."
-    },
-    {
-        question: "Sofia är Bulgariens huvudstad.",
-        type: "trueFalse",
-        alternative: [],
-        answer: [true],
-        correctString: "Sofia är Bulgariens huvudstad."
-    },
-    {
-        question: "Markera de tre befolkningsrikaste länderna.",
-        type: "multipleAlternative",
-        alternative: ["USA", "Kina", "Indonesien", "Indien"],
-        answer: ["Kina", "Indien", "USA"],
-        correctString: "Kina, Indien och USA är de tre befolkningsrikaste länderna."
-    },
-    {
-        question: "Vilket av dessa storstadsområden har störst befolkning?",
-        type: "oneAlternative",
-        alternative: ["Beijing", "Bombay", "Mexico City", "Shanghai", "Delhi", "Jakarta", "Tokyo", "Seoul",],
-        answer: ["Tokyo"],
-        correctString: "Tokyos storstadsområde är det storstadsområde med störst befolkning i världen."
-    },
-    {
-        question: "Markera alla länder som inte gränsar till något hav.",
-        type: "multipleAlternative",
-        alternative: ["Ryssland", "Mongoliet", "Tjeckien", "Indien", "Österrike", "Afghanistan", "Tyskland"],
-        answer: ["Tjeckien", "Mongoliet", "Österrike", "Afghanistan"],
-        correctString: "Tjeckien, Mongoliet, Österrike och Afganistan gränsar inte till något hav. Ryssland, Indien och Tyskland gränsar alla till ett eller flera hav."
-    },
-    {
-        question: "Sydney är Australiens huvudstad.",
-        type: "trueFalse",
-        alternative: [],
-        answer: [false],
-        correctString: "Sydney är inte Australiens huvudstad. Australiens huvudstad är Canberra."
-    },
-    {
-        question: "Det finns 58 monarkier i världen.",
-        type: "trueFalse",
-        alternative: [],
-        answer: [false],
-        correctString: "Det finns inte 58 monarkier i världen utan 'bara' 29."
-    },
-    ], 
-    [
-    {
-        question: "En nydragen neutralledare ska enligt svenska regler ha blå färg.",
-        type: "trueFalse",
-        alternative: [],
-        answer: [true],
-        correctString: "En nydragen neutralledare ska enligt svenska regler ha blå färg."
-    },
-    {
-        question: "Vilken av följande strömstyrkor är INTE en standard på säkringar i Sverige?",
-        type: "oneAlternative",
-        alternative: ["10A", "14A", "16A"],
-        answer: ["14A"],
-        correctString: "Det finns ingen säkring i Sverige med strömstyrkan 14A."
-    },
-    {
-        question: "Markera alla de färger på en ledare som du INTE under några som helst omständingheter får använda som en tändtråd.",
-        type: "multipleAlternative",
-        alternative: ["Brun", "Svart", "Grå", "Blå", "Gul/Grön"],
-        answer: ["Gul/Grön"],
-        correctString: "Du får aldrig använda en gul/grön ledare som en tändtråd. En blå ledare får bara vid vissa tillfällen användas som en tändtråd."
-    }
-    ]
-];
-
-questionsArray1 = [
-    {
-        question: "Helsingborg är Finlands huvudstad.",
-        type: "trueFalse",
-        alternative: [],
-        answer: [false],
-        correctString: "Helsingborg är en ort i Sverige. Helsingfors är Finlands huvudstad."
-    },
-    {
-        question: "Vilket land ligger inte i Europa?",
-        type: "oneAlternative",
-        alternative: ["Moldavien", "Israel", "Tjeckien", "Slovenien"],
-        answer: ["Israel"],
-        correctString: "Israel är det land som inte ligger i Europa."
-    },
-    {
-        question: "Markera alla länder som ligger i Sydamerika.",
-        type: "multipleAlternative",
-        alternative: ["Kolombia", "Mexiko", "Brasilien", "Nicaragua"],
-        answer: ["Brasilien", "Kolombia"],
-        correctString: "Brasilien och Kolombia ligger i Sydamerika, Mexiko och Nicaragua ligger i Centralamerika som tillhär Nordamerika."
-    },
-    {
-        question: "Vilket av dessa länder ligger i Afrika?",
-        type: "oneAlternative",
-        alternative: ["Saudiarabien", "Israel", "Libyen", "Sri Lanka"],
-        answer: ["Libyen"],
-        correctString: "Libyen ligger i Afrika."
-    },
-    {
-        question: "Sofia är Bulgariens huvudstad.",
-        type: "trueFalse",
-        alternative: [],
-        answer: [true],
-        correctString: "Sofia är Bulgariens huvudstad."
-    },
-    {
-        question: "Markera de tre befolkningsrikaste länderna.",
-        type: "multipleAlternative",
-        alternative: ["USA", "Kina", "Indonesien", "Indien"],
-        answer: ["Kina", "Indien", "USA"],
-        correctString: "Kina, Indien och USA är de tre befolkningsrikaste länderna."
-    },
-    {
-        question: "Vilket av dessa storstadsområden har störst befolkning?",
-        type: "oneAlternative",
-        alternative: ["Beijing", "Bombay", "Mexico City", "Shanghai", "Delhi", "Jakarta", "Tokyo", "Seoul",],
-        answer: ["Tokyo"],
-        correctString: "Tokyos storstadsområde är det storstadsområde med störst befolkning i världen."
-    },
-    {
-        question: "Markera alla länder som inte gränsar till något hav.",
-        type: "multipleAlternative",
-        alternative: ["Ryssland", "Mongoliet", "Tjeckien", "Indien", "Österrike", "Afghanistan", "Tyskland"],
-        answer: ["Tjeckien", "Mongoliet", "Österrike", "Afghanistan"],
-        correctString: "Tjeckien, Mongoliet, Österrike och Afganistan gränsar inte till något hav. Ryssland, Indien och Tyskland gränsar alla till ett eller flera hav."
-    },
-    {
-        question: "Sydney är Australiens huvudstad.",
-        type: "trueFalse",
-        alternative: [],
-        answer: [false],
-        correctString: "Sydney är inte Australiens huvudstad. Australiens huvudstad är Canberra."
-    },
-    {
-        question: "Det finns 58 monarkier i världen.",
-        type: "trueFalse",
-        alternative: [],
-        answer: [false],
-        correctString: "Det finns inte 58 monarkier i världen utan 'bara' 29."
-    },
-];
-
-questionsArray2 = [
-    {
-        question: "En nydragen neutralledare ska enligt svenska regler ha blå färg.",
-        type: "trueFalse",
-        alternative: [],
-        answer: [true],
-        correctString: "En nydragen neutralledare ska enligt svenska regler ha blå färg."
-    },
-    {
-        question: "Vilken av följande strömstyrkor är INTE en standard på säkringar i Sverige?",
-        type: "oneAlternative",
-        alternative: ["10A", "14A", "16A"],
-        answer: ["14A"],
-        correctString: "Det finns ingen säkring i Sverige med strömstyrkan 14A."
-    },
-    {
-        question: "Markera alla de färger på en ledare som du INTE under några som helst omständingheter får använda som en tändtråd.",
-        type: "multipleAlternative",
-        alternative: ["Brun", "Svart", "Grå", "Blå", "Gul/Grön"],
-        answer: ["Gul/Grön"],
-        correctString: "Du får aldrig använda en gul/grön ledare som en tändtråd. En blå ledare får bara vid vissa tillfällen användas som en tändtråd."
-    }
 ];
 
 let darkModeBtn = document.querySelector("#dark-mode-btn");
@@ -198,6 +109,21 @@ let isDark = false;
 let startBtn = document.querySelector("#start-btn");
 let content = document.querySelector("#content");
 let answerArray = [];
+
+let selectContent = document.querySelector("#select-content");
+let quizList = document.createElement("select");
+let quizListLabel = document.createElement("label");
+quizListLabel.setAttribute("for", "option-quiz");
+quizListLabel.innerText = "Välj quiz:"
+quizList.id = "option-quiz";
+selectContent.append(quizListLabel, quizList);
+
+allQuiz.forEach((quizNum, index) => {
+    let option = document.createElement("option");
+    option.value = allQuiz.indexOf(quizNum);
+    option.innerText = allQuiz[index].name;
+    quizList.append(option);
+});
 
 darkModeBtn.addEventListener("click", () => {
     if (!isDark) {
@@ -216,7 +142,7 @@ startBtn.addEventListener("click", () => {
     let i = document.querySelector("#option-quiz").value;
     answerArray = [];
     content.innerHTML = "";
-    quizFunction(allQuiz[i]);
+    quizFunction(allQuiz[i].quiz);
 });
 
 let quizFunction = (arr) => {
