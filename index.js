@@ -1,3 +1,4 @@
+//En array dom innehåller objekt(Olika quiz), objektet i sig innehåller nyklar, ett namn (quizets namn), och ett quiz (en array som i sin tur innehåller objekt för varje fråga).
 allQuiz = [
     {
         name: "Geografi Quiz",
@@ -104,20 +105,28 @@ allQuiz = [
     },
 ];
 
+//Vår nattläge-knapp.
 let darkModeBtn = document.querySelector("#dark-mode-btn");
+//Ifall nattläge är på ett av.
 let isDark = false;
+//Vårt "Starta quizet"-knapp (från HTML)
 let startBtn = document.querySelector("#start-btn");
+//Vår div där vi skriver ut frågor och sedan svar.
 let content = document.querySelector("#content");
+//En array som kommer spara "Rätt!" eller "Fel!" beroede på användaren.
+// Längden på denna kommer också förklara för vår huvudfunktion (som kör quizet) hur många frågor som redan är besvaradde och därmed vilken fråga den ska presentera (eller om användaren är klar).
 let answerArray = [];
 
+// Skapar variabler för listan där man väljer vilket quiz man vill köra samt skapar listan.
 let selectContent = document.querySelector("#select-content");
 let quizList = document.createElement("select");
 let quizListLabel = document.createElement("label");
 quizListLabel.setAttribute("for", "option-quiz");
-quizListLabel.innerText = "Välj quiz:"
+quizListLabel.innerText = "Välj quiz: "
 quizList.id = "option-quiz";
 selectContent.append(quizListLabel, quizList);
 
+// Funktion som skapar alernativ i listan med de olika quizen. Om du lägger till ett nytt quiz i arrayen så kommer koden kunna skapa ett till alternativ i listan.
 allQuiz.forEach((quizNum, index) => {
     let option = document.createElement("option");
     option.value = allQuiz.indexOf(quizNum);
@@ -125,6 +134,7 @@ allQuiz.forEach((quizNum, index) => {
     quizList.append(option);
 });
 
+//Funktion för nattläge.
 darkModeBtn.addEventListener("click", () => {
     if (!isDark) {
         document.body.style.background = "dimgray";
@@ -138,13 +148,18 @@ darkModeBtn.addEventListener("click", () => {
     }
 });
 
+// Funktion för "starta quiz"-knappen. Använder det quizet du valt i listan.
 startBtn.addEventListener("click", () => {
     let i = document.querySelector("#option-quiz").value;
+    //Raderar alla dina svar ifall du klickar på knappen så man kan börja om eller köra annat quiz.
     answerArray = [];
+    //Tar bort allt innehåll från vår div där vi visar både frågor och svar.
     content.innerHTML = "";
+    //Kör "huvudfunktionen" (quizet) beroende på vilket du valt.
     quizFunction(allQuiz[i].quiz);
 });
 
+//Funktionen som kör själva quizet.
 let quizFunction = (arr) => {
     let questionDiv =document.createElement("div");
     questionDiv.class = "questions";
@@ -201,7 +216,7 @@ let quizFunction = (arr) => {
         questionForUser.innerText = arr[answerArray.length].question;
         questionDiv.append(questionForUser);
 
-        // Funktion för Sant/Falsk-frågor.
+        // Funktion för Sant/Falsk-frågor. (borde gå att korta ner eftersom sant- och falskt-knappen typ gör samma sak.)
         if (arr[answerArray.length].type === "trueFalse") {
             let trueBtn = document.createElement("button");
             trueBtn.innerText = "Sant";
