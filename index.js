@@ -175,20 +175,42 @@ let quizFunction = (arr) => {
         // Funktionen för resultat-knapp.
         resultBtn.addEventListener ("click", (event) => {
             //Tar bort resultat-knapp och h2 "Du är klar!"-text och visar alla frågor och ifall användaren har rätt eller fel.
-            event.target.remove();
-            answerForUser.remove();
+            questionDiv.innerHTML = "";
+            let rightWrong = [];
+            let yourAnswer = [];
             let points = 0;
             answerArray.forEach((answer, index) => {
-                let correctAnswer = document.createElement("p");
-                if (answer === "Rätt!") {
-                    points++;
+                let yourAnswerWithSpace = []
+                answer.forEach((ans) => {
+                    yourAnswerWithSpace.push(" " + ans)
+                })
+                yourAnswer.push("Ditt svar: " + yourAnswerWithSpace)
+                if (answer.length === (arr[index].answer).length) {
+                    let corrected = [];
+                    (arr[index].answer).forEach((alt) => {
+                        answer.forEach((alt2) => {
+                            if (alt === alt2) {
+                                corrected.push(alt2);
+                            }
+                        })
+                    })
+                    if (corrected.length === (arr[index].answer).length) {
+                        points++;
+                        rightWrong.push("Rätt!");
+                    }
+                    else {
+                        rightWrong.push("Fel! " + arr[index].correctString);
+                    }
                 }
                 else {
-                    correctAnswer.innerText = arr[index].correctString;
+                    rightWrong.push("Fel! " + arr[index].correctString);                   
                 }
+                let answerDiv = document.createElement("div");
+                answerDiv.style.border = "solid";
                 let questionForUser = document.createElement("h3");
                 questionForUser.innerText = arr[index].question;
-                questionDiv.append(questionForUser, answer, document.createElement("br"), correctAnswer);
+                questionDiv.append(answerDiv, document.createElement("br"));
+                answerDiv.append(questionForUser, yourAnswer[index], document.createElement("br"), rightWrong[index], document.createElement("br"));
             })
             let score = document.createElement("h2");
             let grade = "";
@@ -197,7 +219,7 @@ let quizFunction = (arr) => {
                 grade = "Underkänt."
             }
             else if (points/arr.length<=0.75) {
-                score.style.color = "yellow";
+                score.style.color = "orange";
                 grade = "Godkänt."
             }
             else {
@@ -216,101 +238,39 @@ let quizFunction = (arr) => {
         questionForUser.innerText = arr[answerArray.length].question;
         questionDiv.append(questionForUser);
 
-        // Funktion för radio-frågor.
-        if (arr[answerArray.length].type === "oneAlternative") {
-            (arr[answerArray.length].alternative).forEach((alt) => {
-                let altRadio = document.createElement("input");
-                altRadio.setAttribute("type", "radio");
-                altRadio.setAttribute("name", "radio-btn");
-                // Avgör ifall värdet på radioknappen är Rätt...
-                if (alt === arr[answerArray.length].answer[0]) {
-                    altRadio.setAttribute("value", "Rätt!");
-                }
-                //... eller Fel.
-                else {
-                    altRadio.setAttribute("value", "Fel!");
-                };
-                altRadio.id = alt;
-                let altLabel = document.createElement("label");
-                altLabel.setAttribute("for", alt);
-                altLabel.innerHTML = alt + ":";
-                questionDiv.append(altLabel, altRadio, document.createElement("br"));
-            });
-            let submitBtn = document.createElement("button");
-            submitBtn.innerText = "Svara";
-            // Skapar funktion för Svara-knappen.
-            submitBtn.addEventListener ("click", () => {
-                // Om du har klickat i en radio-knapp så ....
-                if (document.querySelector("[name='radio-btn']:checked")) {
-                    let answer = document.querySelector("[name='radio-btn']:checked").value;
-                    answerArray.push(answer);
-                    content.innerHTML = "";
-                    quizFunction(arr);
-                }
-                // ...annars får du en "alert" om att göra detta.
-                else {
-                    alert("Vänligen klicka i ett alternativ!");
-                };
-            });
-            questionDiv.append(document.createElement("br"), submitBtn);
-        }
-        // Funktion för flersvarsfrågor.
-        else if (arr[answerArray.length].type === "multipleAlternative") {
-            (arr[answerArray.length].alternative).forEach((alt) => {
-                let altCheckbox = document.createElement("input");
-                altCheckbox.setAttribute("type", "checkbox");
-                altCheckbox.setAttribute("name", "checkbox-btn");
-                altCheckbox.setAttribute("value", alt);
-                altCheckbox.id = alt;
-                let altLabel = document.createElement("label");
-                altLabel.setAttribute("for", alt);
-                altLabel.innerHTML = alt + ":";
-                questionDiv.append(altLabel, altCheckbox, document.createElement("br"));
-            });
-            let submitBtn = document.createElement("button");
-            submitBtn.innerText = "Svara";
-            // Skapar funktion för Svara-knappen.
-            submitBtn.addEventListener ("click", () => {
-                // Om du har klickat i minst en checkbox-knapp så ....
-                if (document.querySelector("[name='checkbox-btn']:checked")) {
-                    let allAnswers = [];
-                    (document.querySelectorAll("[name='checkbox-btn']:checked")).forEach((obj) => {
-                        allAnswers.push(obj.value);
-                    });   
-                    // Om man har klickat i lika många alternativ som det finns rätta svar (jämför längden) så fortsätter den rätta, annars...         
-                    if (allAnswers.length === (arr[answerArray.length].answer).length) {
-                        corrected = [];
-                        // Jämför alla rätta alternativ med de man har klickat i, det spelar ingen roll vilken ordning de rätta svaren ligger i arrayan med frågor (därav mycket kod).
-                        (arr[answerArray.length].answer).forEach((alt) => {
-                            allAnswers.forEach((alt2) => {
-                                if (alt === alt2) {
-                                    corrected.push(alt2);
-                                }
-                            })
-                        })
-                        // Om vi har klickat i samma resultat som de rätta svaren var så ska vi nu får rätt på frågan (jämför längden), annars...
-                        if (corrected.length === (arr[answerArray.length].answer).length) {
-                            answerArray.push("Rätt!");
-                        }
-                        //...får vi fel
-                        else {
-                            answerArray.push("Fel!");
-                        }
-                    }
-                    //...har du automatiskt fel.
-                    else {
-                        answerArray.push("Fel!");
-                    };
-                    content.innerHTML = "";
-                    quizFunction(arr);
-                }
-                // ...annars får du en "alert" om att göra detta.
-                else {
-                    alert("Vänligen klicka i minst ett alternativ!");
-                };
-            });
-            questionDiv.append(document.createElement("br"), submitBtn);
+        (arr[answerArray.length].alternative).forEach((alt) => {
+            let alternative = document.createElement("input");
+            if (arr[answerArray.length].type === "oneAlternative") {
+                alternative.setAttribute("type", "radio");
+            }
+            else {
+                alternative.setAttribute("type", "checkbox");
+            };
+            alternative.setAttribute("name", "alternative-check");
+            alternative.setAttribute("value", alt);
+            alternative.id = alt;
+            let altLabel = document.createElement("label");
+            altLabel.setAttribute("for", alt);
+            altLabel.innerHTML = alt + ":";
+            questionDiv.append(altLabel, alternative, document.createElement("br"));
+        });
+        let answerBtn = document.createElement("button");
+        answerBtn.innerText = "Svara";
+        answerBtn.addEventListener ("click", () => {
+            if (document.querySelector("[name='alternative-check']:checked")) {
+                let allAnswers = [];
+                (document.querySelectorAll("[name='alternative-check']:checked")).forEach((obj) => {
+                    allAnswers.push(obj.value);
+                });
+                answerArray.push(allAnswers);
+                content.innerHTML = "";
+                quizFunction(arr);
 
-        }
+            }
+            else {
+                alert("Vänligen klicka i minst ett alternativ!");
+            };
+        })
+        questionDiv.append(document.createElement("br"), answerBtn);
     }
 }
