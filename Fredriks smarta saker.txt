@@ -1,0 +1,5 @@
+gå tillbaka i fråga
+visa vad användaren svarade
+dölja "nästa fråga"-knapp innan något är iklickat
+
+behövs två funktioner för checkbox och radio eller kan man använda samma?
