@@ -6,9 +6,9 @@ allQuiz = [
         [
             {
                 question: "Helsingborg är Finlands huvudstad.",
-                type: "trueFalse",
-                alternative: [],
-                answer: [false],
+                type: "oneAlternative",
+                alternative: ["Sant", "Falskt"],
+                answer: ["Falskt"],
                 correctString: "Helsingborg är en ort i Sverige. Helsingfors är Finlands huvudstad."
             },
             {
@@ -34,9 +34,9 @@ allQuiz = [
             },
             {
                 question: "Sofia är Bulgariens huvudstad.",
-                type: "trueFalse",
-                alternative: [],
-                answer: [true],
+                type: "oneAlternative",
+                alternative: ["Sant", "Falskt"],
+                answer: ["Sant"],
                 correctString: "Sofia är Bulgariens huvudstad."
             },
             {
@@ -62,16 +62,16 @@ allQuiz = [
             },
             {
                 question: "Sydney är Australiens huvudstad.",
-                type: "trueFalse",
-                alternative: [],
-                answer: [false],
+                type: "oneAlternative",
+                alternative: ["Sant", "Falskt"],
+                answer: ["Falskt"],
                 correctString: "Sydney är inte Australiens huvudstad. Australiens huvudstad är Canberra."
             },
             {
                 question: "Det finns 58 monarkier i världen.",
-                type: "trueFalse",
-                alternative: [],
-                answer: [false],
+                type: "oneAlternative",
+                alternative: ["Sant", "Falskt"],
+                answer: ["Falskt"],
                 correctString: "Det finns inte 58 monarkier i världen utan 'bara' 29."
             },
         ]
@@ -82,9 +82,9 @@ allQuiz = [
         [
             {
                 question: "En nydragen neutralledare ska enligt svenska regler ha blå färg.",
-                type: "trueFalse",
-                alternative: [],
-                answer: [true],
+                type: "oneAlternative",
+                alternative: ["Sant", "Falskt"],
+                answer: ["Sant"],
                 correctString: "En nydragen neutralledare ska enligt svenska regler ha blå färg."
             },
             {
@@ -216,37 +216,8 @@ let quizFunction = (arr) => {
         questionForUser.innerText = arr[answerArray.length].question;
         questionDiv.append(questionForUser);
 
-        // Funktion för Sant/Falsk-frågor. (borde gå att korta ner eftersom sant- och falskt-knappen typ gör samma sak.)
-        if (arr[answerArray.length].type === "trueFalse") {
-            let trueBtn = document.createElement("button");
-            trueBtn.innerText = "Sant";
-            // Skapar funktion till Sant-knappen.
-            trueBtn.addEventListener ("click", () => {
-                if (arr[answerArray.length].answer[0]){
-                    answerArray.push("Rätt!");
-                } else {
-                    answerArray.push("Fel!");
-                }
-                content.innerHTML = "";
-                quizFunction(arr);
-            });
-            questionDiv.append(trueBtn)
-            let falseBtn = document.createElement("button");
-            falseBtn.innerText = "Falskt";
-            // Skapar funktion till Falskt-knappen.
-            falseBtn.addEventListener ("click", () => {
-                if (!arr[answerArray.length].answer[0]){
-                    answerArray.push("Rätt!");
-                } else {
-                    answerArray.push("Fel!");
-                }
-                content.innerHTML = "";
-                quizFunction(arr);
-            });
-            questionDiv.append(falseBtn)
-        }
         // Funktion för radio-frågor.
-        else if (arr[answerArray.length].type === "oneAlternative") {
+        if (arr[answerArray.length].type === "oneAlternative") {
             (arr[answerArray.length].alternative).forEach((alt) => {
                 let altRadio = document.createElement("input");
                 altRadio.setAttribute("type", "radio");
