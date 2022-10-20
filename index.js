@@ -12,7 +12,7 @@ allQuiz = [
                 correctString: "Helsingborg är en ort i Sverige. Helsingfors är Finlands huvudstad."
             },
             {
-                question: "Vilket land ligger inte i Europa?",
+                question: "Vilket land ligger INTE i Europa?",
                 type: "oneAlternative",
                 alternative: ["Moldavien", "Israel", "Tjeckien", "Slovenien"],
                 answer: ["Israel"],
@@ -54,7 +54,7 @@ allQuiz = [
                 correctString: "Tokyos storstadsområde är det storstadsområde med störst befolkning i världen."
             },
             {
-                question: "Markera alla länder som inte gränsar till något hav.",
+                question: "Markera alla länder som INTE gränsar till något hav.",
                 type: "multipleAlternative",
                 alternative: ["Ryssland", "Mongoliet", "Tjeckien", "Indien", "Österrike", "Afghanistan", "Tyskland"],
                 answer: ["Tjeckien", "Mongoliet", "Österrike", "Afghanistan"],
