@@ -254,6 +254,18 @@ let quizFunction = (arr) => {
             altLabel.innerHTML = alt + ":";
             questionDiv.append(altLabel, alternative, document.createElement("br"));
         });
+        questionDiv.append(document.createElement("br"));
+        if (answerArray.length !== 0){
+            let previousBtn = document.createElement("button");
+            previousBtn.innerText = "Tillbaka";
+            previousBtn.addEventListener ("click", () => {
+                answerArray.pop();
+                content.innerHTML = "";
+                quizFunction(arr);
+            })
+            questionDiv.append(previousBtn);
+        }
+
         let answerBtn = document.createElement("button");
         answerBtn.innerText = "Svara";
         answerBtn.addEventListener ("click", () => {
@@ -271,6 +283,6 @@ let quizFunction = (arr) => {
                 alert("Vänligen klicka i minst ett alternativ!");
             };
         })
-        questionDiv.append(document.createElement("br"), answerBtn);
+        questionDiv.append(answerBtn);
     }
 }
