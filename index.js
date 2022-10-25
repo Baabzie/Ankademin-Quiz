@@ -127,13 +127,17 @@ quizListLabel.innerText = "Välj quiz: "
 quizList.id = "option-quiz";
 selectContent.append(quizListLabel, quizList);
 
-// Funktion som skapar alernativ i listan med de olika quizen. Om du lägger till ett nytt quiz i arrayen så kommer koden kunna skapa ett till alternativ i listan.
-allQuiz.forEach((quizNum, index) => {
-    let option = document.createElement("option");
-    option.value = allQuiz.indexOf(quizNum);
-    option.innerText = allQuiz[index].name;
-    quizList.append(option);
-});
+let createQuizSelectFunction = () => {
+    quizList.innerHTML = "";
+    // Funktion som skapar alernativ i listan med de olika quizen. Om du lägger till ett nytt quiz i arrayen så kommer koden kunna skapa ett till alternativ i listan.
+    allQuiz.forEach((quizNum, index) => {
+        let option = document.createElement("option");
+        option.value = allQuiz.indexOf(quizNum);
+        option.innerText = allQuiz[index].name;
+        quizList.append(option);
+    });
+}
+createQuizSelectFunction();
 
 //Funktion för nattläge.
 darkModeBtn.addEventListener("click", () => {
@@ -289,6 +293,10 @@ let quizFunction = (arr) => {
     }
 }
 
+/*--> Allt här nedanför är kod för att skapa sitt egna quiz på sidan. Koden är väldigt stökig och det kan finnas rader som är överflödiga. Har inte rättat koden och om man "gör fel" på sidan kan den crasha.
+Det går inte heller att radera svarsalternativ ifall man redan lagt till ett och inte heller att gå tillbaka och radera frågor man skapat. 
+*/
+
 let ownQuizName = "";
 
 createQuizBtn.addEventListener("click", () => {
@@ -398,6 +406,7 @@ let addQuestionFunction = () => {
         newQuiz.name = ownQuizName;
         newQuiz.quiz = questionsArray;
         allQuiz.push(newQuiz);
+        createQuizSelectFunction();
         newQuiz = {};
         questionsArray = [];
         ownQuizName = "";
