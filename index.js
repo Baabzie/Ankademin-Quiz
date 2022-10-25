@@ -116,6 +116,7 @@ let content = document.querySelector("#content");
 //En array som kommer spara "Rätt!" eller "Fel!" beroede på användaren.
 // Längden på denna kommer också förklara för vår huvudfunktion (som kör quizet) hur många frågor som redan är besvaradde och därmed vilken fråga den ska presentera (eller om användaren är klar).
 let answerArray = [];
+let createQuizBtn = document.querySelector("#create-quiz-btn")
 
 // Skapar variabler för listan där man väljer vilket quiz man vill köra samt skapar listan.
 let selectContent = document.querySelector("#select-content");
@@ -158,6 +159,8 @@ startBtn.addEventListener("click", () => {
     //Kör "huvudfunktionen" (quizet) beroende på vilket du valt.
     quizFunction(allQuiz[i].quiz);
 });
+
+
 
 //Funktionen som kör själva quizet.
 let quizFunction = (arr) => {
@@ -237,7 +240,7 @@ let quizFunction = (arr) => {
         let questionForUser = document.createElement("h2");
         questionForUser.innerText = arr[answerArray.length].question;
         questionDiv.append(questionForUser);
-
+        
         (arr[answerArray.length].alternative).forEach((alt) => {
             let alternative = document.createElement("input");
             if (arr[answerArray.length].type === "oneAlternative") {
@@ -265,7 +268,6 @@ let quizFunction = (arr) => {
             })
             questionDiv.append(previousBtn);
         }
-
         let answerBtn = document.createElement("button");
         answerBtn.innerText = "Svara";
         answerBtn.addEventListener ("click", () => {
@@ -285,4 +287,145 @@ let quizFunction = (arr) => {
         })
         questionDiv.append(answerBtn);
     }
+}
+
+let ownQuizName = "";
+
+createQuizBtn.addEventListener("click", () => {
+    content.innerHTML = "";
+    ownQuizName = "";
+    createQuizFunction();
+});
+
+let createQuizFunction = () => {
+    let nameInput = document.createElement("input");
+    let nameInputLabel = document.createElement("label");
+    nameInputLabel.setAttribute("for", "name-input");
+    nameInputLabel.innerText = "Välj namn på ditt quiz: "
+    nameInput.id = "name-input";
+    createDiv = document.createElement("div");
+    let addQuestionBtn = document.createElement("button");
+    addQuestionBtn.innerText = "Lägg till en fråga!";
+    addQuestionBtn.addEventListener("click", () => {
+        ownQuizName = nameInput.value;
+        content.innerHTML = "";
+        addQuestionFunction();
+    })
+    content.append(createDiv);
+    createDiv.append(document.createElement("br"), nameInputLabel, nameInput, document.createElement("br"), document.createElement("br"), addQuestionBtn);
+}
+
+let questionsArray = [];
+
+let addQuestionFunction = () => {
+    let questionInput = document.createElement("input");
+    let questionInputLabel = document.createElement("label");
+    questionInputLabel.setAttribute("for", "question-input");
+    questionInputLabel.innerText = "Skriv fråga: "
+    questionInput.id = "question-input";
+    let answerStringInput = document.createElement("input");
+    let answerStringInputLabel = document.createElement("label");
+    answerStringInputLabel.setAttribute("for", "answer-string-input");
+    answerStringInputLabel.innerText = "Skriv svar på frågan (som String): "
+    answerStringInput.id = "answer-string-input";
+    let quizName = document.createElement("h2");
+    quizName.innerText = "Namn på quiz: " + ownQuizName;
+
+    let typeOfQuestionSelect = document.createElement("select");
+    let typeOfQuestionSelectLabel = document.createElement("label");
+    typeOfQuestionSelectLabel.setAttribute("for", "option-question");
+    typeOfQuestionSelectLabel.innerText = "Välj typ av fråga: "
+    typeOfQuestionSelect.id = "option-question";
+    let optionNotSelected = document.createElement("option");
+    optionNotSelected.value = "not-selected";
+    optionNotSelected.innerText = "Inget valt";
+    let optionRadio = document.createElement("option");
+    optionRadio.value = "oneAlternative";
+    optionRadio.innerText = "Ensvarsfråga";
+    let optionCheckbox = document.createElement("option");
+    optionCheckbox.value = "multipleAlternative";
+    optionCheckbox.innerText = "Flersvarsfråga"
+    typeOfQuestionSelect.append(optionNotSelected, optionRadio, optionCheckbox);
+
+    
+    let alternativeDiv = document.createElement("div");
+    
+    typeOfQuestionSelect.addEventListener("change", () => {
+        alternativeDiv.innerHTML = "";
+        if (typeOfQuestionSelect.value !== "not-selected") {
+            let newAlternative = document.createElement("button");
+            newAlternative.innerText = "Lägg till ett svarsalternativ";
+            newAlternative.addEventListener("click", () => {
+                let correctCheck = document.createElement("input");
+                if (typeOfQuestionSelect.value === "oneAlternative") {
+                    correctCheck.setAttribute("type", "radio");
+                }
+                else if (typeOfQuestionSelect.value === "multipleAlternative") {
+                    correctCheck.setAttribute("type", "checkbox");
+                };
+                correctCheck.setAttribute("name", "correct-check");
+                correctCheck.id = ("correct-check-" + ((document.querySelectorAll("[name='correct-check']").length)))
+                let correctCheckLabel = document.createElement("label");
+                correctCheckLabel.setAttribute("for", ("correct-check-" + ((document.querySelectorAll("[name='correct-check']").length))));
+                correctCheckLabel.innerText = "Kryssa om rätt: "
+                let answerInput = document.createElement("input");
+                answerInput.setAttribute("name", "alternative");
+                answerInput.id = ("alternative-" + ((document.querySelectorAll("[name='alternative']").length)))
+                alternativeDiv.append(correctCheckLabel, correctCheck, answerInput, document.createElement("br"));
+            })
+            alternativeDiv.append(newAlternative, document.createElement("br"));
+        }
+    })
+    let questionObject = {};
+    let questionString = "";
+    let correctString = "";
+    let questionType = "";
+    let alternativeArray = [];
+    let correctAnswers = [];
+    createDiv = document.createElement("div");
+    let addQuestionBtn = document.createElement("button");
+    addQuestionBtn.innerText = "Spara frågan och lägg till en till!";
+    addQuestionBtn.addEventListener("click", () => {
+        savequestionFunction();
+        content.innerHTML = "";
+        addQuestionFunction();
+    })
+    let saveQuizBtn = document.createElement("button");
+    saveQuizBtn.innerText = "Spara frågan, avsluta och spara quiz!";
+    saveQuizBtn.addEventListener("click", () => {
+        savequestionFunction();
+        let newQuiz = {};
+        newQuiz.name = ownQuizName;
+        newQuiz.quiz = questionsArray;
+        allQuiz.push(newQuiz);
+        newQuiz = {};
+        questionsArray = [];
+        ownQuizName = "";
+        content.innerHTML = "";
+    })
+    let savequestionFunction = () => {
+        questionString = questionInput.value;
+        questionType = typeOfQuestionSelect.value;
+        correctString = answerStringInput.value;
+        (document.querySelectorAll("[name='alternative']")).forEach((alt) => {
+            alternativeArray.push(alt.value);
+        })
+        let checks = (document.querySelectorAll("[name='correct-check']"));
+        checks.forEach((check, index) => {
+            if (check.checked){
+                correctAnswers.push((document.querySelectorAll("[name='alternative']"))[index].value)
+            }
+        })
+        questionObject.question = questionString;
+        questionObject.type = questionType;
+        questionObject.alternative = alternativeArray;
+        questionObject.answer = correctAnswers;
+        questionObject.correctString = correctString;
+        questionsArray.push(questionObject);
+        console.log(questionsArray);
+    }
+    
+    content.append(createDiv);
+    createDiv.append(quizName, typeOfQuestionSelect, questionInputLabel, questionInput,document.createElement("br"), document.createElement("br"), typeOfQuestionSelect, document.createElement("br"), document.createElement("br"), alternativeDiv, document.createElement("br"), document.createElement("br"), answerStringInputLabel, answerStringInput, document.createElement("br"), document.createElement("br"), addQuestionBtn, saveQuizBtn);
+    
 }
