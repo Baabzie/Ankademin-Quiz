@@ -1,4 +1,4 @@
-//En array dom innehåller objekt(Olika quiz), objektet i sig innehåller nyklar, ett namn (quizets namn), och ett quiz (en array som i sin tur innehåller objekt för varje fråga).
+//En array dom innehåller objekt(Olika quiz), objektet i sig innehåller nyklar, ett namn (quizets namn), och ett quiz (en array som i sin tur innehåller objekt för varje fråga). Går att pusha in nya quiz som man själv skapar.
 allQuiz = [
     {
         name: "Geografi Quiz",
@@ -107,15 +107,16 @@ allQuiz = [
 
 //Vår nattläge-knapp.
 let darkModeBtn = document.querySelector("#dark-mode-btn");
-//Ifall nattläge är på ett av.
+//Ifall nattläge är på eller av.
 let isDark = false;
-//Vårt "Starta quizet"-knapp (från HTML)
+//Vårt "Starta quizet"-knapp.
 let startBtn = document.querySelector("#start-btn");
 //Vår div där vi skriver ut frågor och sedan svar.
 let content = document.querySelector("#content");
-//En array som kommer spara "Rätt!" eller "Fel!" beroede på användaren.
+//En array som kommer sparar de svar användaren kryssat i(arrayer i arrayen).
 // Längden på denna kommer också förklara för vår huvudfunktion (som kör quizet) hur många frågor som redan är besvaradde och därmed vilken fråga den ska presentera (eller om användaren är klar).
 let answerArray = [];
+// Skapa quiz knapp.
 let createQuizBtn = document.querySelector("#create-quiz-btn")
 
 // Skapar variabler för listan där man väljer vilket quiz man vill köra samt skapar listan.
@@ -127,9 +128,11 @@ quizListLabel.innerText = "Välj quiz: "
 quizList.id = "option-quiz";
 selectContent.append(quizListLabel, quizList);
 
+//Funktion som skapar alernativ i listan med de olika quizen. Om du lägger till ett nytt quiz i arrayen (genom att skapa ett eget quiz) så kommer koden "ladda om" listan så även det nya quizet finns med.
 let createQuizSelectFunction = () => {
+    //Tömmer listan varje gång funktionen körs så det inte blir dubbleter av de gamla quizen när man lagt till nytt.
     quizList.innerHTML = "";
-    // Funktion som skapar alernativ i listan med de olika quizen. Om du lägger till ett nytt quiz i arrayen så kommer koden kunna skapa ett till alternativ i listan.
+    //Alternativ för alla de olika quizen som ligger i vår quiz-array (allQuiz).
     allQuiz.forEach((quizNum, index) => {
         let option = document.createElement("option");
         option.value = allQuiz.indexOf(quizNum);
@@ -137,15 +140,19 @@ let createQuizSelectFunction = () => {
         quizList.append(option);
     });
 }
+
+// Kör funktionen en gång när sidan först laddas för att få "standard-quizen" i listan.
 createQuizSelectFunction();
 
-//Funktion för nattläge.
+//Funktion för nattläge (supersimpel och inte så bra om man gjort mer styling i CSS).
 darkModeBtn.addEventListener("click", () => {
+    // Ifall sidan INTE är mörk så gör den sidan mörk när man trycker på knappen annars...
     if (!isDark) {
         document.body.style.background = "dimgray";
         document.querySelector("*").style.color = "white";
         isDark = true;
     }
+    // ...så är sidan mörk och den blir istället ljus.
     else {
         document.body.style.background = "white";
         document.querySelector("*").style.color = "black";
@@ -171,7 +178,7 @@ let quizFunction = (arr) => {
     let questionDiv =document.createElement("div");
     questionDiv.class = "questions";
     content.append(questionDiv);
-    // Ifall användaren gått igenom alla frågor....
+    // Ifall användaren gått igenom alla frågor (dvs svars-arrayen är lika lång som den arrayen med alla frågor) så rättas arrayen och skriver ut ditt resultat....
     if (answerArray.length === arr.length) {
         let answerForUser = document.createElement("h2");
         answerForUser.innerText = "Du är klar!";
@@ -180,19 +187,26 @@ let quizFunction = (arr) => {
         let resultBtn = document.createElement("button");
         resultBtn.innerText = "Visa resultat!";
         // Funktionen för resultat-knapp.
-        resultBtn.addEventListener ("click", (event) => {
+        resultBtn.addEventListener ("click", () => {
             //Tar bort resultat-knapp och h2 "Du är klar!"-text och visar alla frågor och ifall användaren har rätt eller fel.
             questionDiv.innerHTML = "";
+            //Array som kommer innehålla "Rätt!" eller "Fel!".
             let rightWrong = [];
+            //Array dom kommer innehålla de svaren användaren kryssade i, existerar bara för att lägga till ett mellanslag mellan de olika alternativen så det ser snyggt ut när de skrivs ut (går antagligen att göra smartare).
             let yourAnswer = [];
+            //Variabel för att räknar hur många rätt användaren har.
             let points = 0;
+            //Funktion för att rätta varje fråga.
             answerArray.forEach((answer, index) => {
+                //För att få mellanrum mellan de alternativ användaren svarat (går antagligen att göra smartare och mycket lättare).
                 let yourAnswerWithSpace = []
                 answer.forEach((ans) => {
                     yourAnswerWithSpace.push(" " + ans)
                 })
                 yourAnswer.push("Ditt svar: " + yourAnswerWithSpace)
+                //Är användarens svar lika många som det finns rätt? I så fall....
                 if (answer.length === (arr[index].answer).length) {
+                    //Jämför alla de svaren användaren angett med de rätta svaren. Detta är "onödigt långt" men klarar av att rätta frågan även om de rätta svaren och det som användaren angett ligger i olika ordning. Detta kan inte ske ifall användaren skapat ett eget quiz men det var en rolig problemlösning så lät det vara. I de quiz som finns när sidan skapas i browsern så finns sådana problem, bara för att testa att det kan fungera.
                     let corrected = [];
                     (arr[index].answer).forEach((alt) => {
                         answer.forEach((alt2) => {
@@ -201,17 +215,21 @@ let quizFunction = (arr) => {
                             }
                         })
                     })
+                    //När vi fört över de svaren som användaren angett som är rätt till en ny array så jämför vi dennas längd med arrayen med de rätta svaren. Stämmer det fortfarande så får man rätt...
                     if (corrected.length === (arr[index].answer).length) {
                         points++;
                         rightWrong.push("Rätt!");
                     }
+                    //...annars får man fel
                     else {
                         rightWrong.push("Fel! " + arr[index].correctString);
                     }
                 }
+                //....annars har användern automatiskt fel.
                 else {
                     rightWrong.push("Fel! " + arr[index].correctString);                   
                 }
+                //Skriver ut all information för frågan och ifall rätt eller fel osv.
                 let answerDiv = document.createElement("div");
                 answerDiv.style.border = "solid";
                 let questionForUser = document.createElement("h3");
@@ -219,6 +237,7 @@ let quizFunction = (arr) => {
                 questionDiv.append(answerDiv, document.createElement("br"));
                 answerDiv.append(questionForUser, yourAnswer[index], document.createElement("br"), rightWrong[index], document.createElement("br"));
             })
+            //Skapar en h2 som säger hur många poäng användaren har, vilket betyg och färgar denna efter betyg. Skriver ut den först i vår div.
             let score = document.createElement("h2");
             let grade = "";
             if (points/arr.length<0.5) {
@@ -237,19 +256,23 @@ let quizFunction = (arr) => {
             
             questionDiv.prepend(score);
         })
+        //Skriver ut rresultatknappen.
         questionDiv.append(resultBtn);
     }
-    //...annars.
+    //...annars så ska frågorna visas en och en.
     else {
+        //Skriver ut frågan för användaren. Beroende på hur många svar som finns i svarsarrayen så vet koden vilken fråga den ska presentera.
         let questionForUser = document.createElement("h2");
         questionForUser.innerText = arr[answerArray.length].question;
         questionDiv.append(questionForUser);
-        
+        //Skapar de olika alternativen beroende på hur många som finns i själva fråge-objektet.
         (arr[answerArray.length].alternative).forEach((alt) => {
             let alternative = document.createElement("input");
+            //Ifall det är en ensvarsfråga så ska svaren vara av typen "radio"....
             if (arr[answerArray.length].type === "oneAlternative") {
                 alternative.setAttribute("type", "radio");
             }
+            //....annars är det per automatik en flersvarsfråga och då ska svaren vara av typen "checkbox".
             else {
                 alternative.setAttribute("type", "checkbox");
             };
@@ -261,10 +284,12 @@ let quizFunction = (arr) => {
             altLabel.innerHTML = alt + ":";
             questionDiv.append(altLabel, alternative, document.createElement("br"));
         });
+        //Så länge vi inte är på fråga 1 så ska det finnas en "tillbaka"-knapp.
         questionDiv.append(document.createElement("br"));
         if (answerArray.length !== 0){
             let previousBtn = document.createElement("button");
             previousBtn.innerText = "Tillbaka";
+            //Knappen raderar bara svaret (i svarsarrayen) som angavs i föregående fråga och kör om funktionen vilket då gör att den frågan körs om (kan bli bättre då vi inte kan se vad vi svarade förut när vi tidigare svarade på frågan)
             previousBtn.addEventListener ("click", () => {
                 answerArray.pop();
                 content.innerHTML = "";
@@ -272,9 +297,11 @@ let quizFunction = (arr) => {
             })
             questionDiv.append(previousBtn);
         }
+        //Skapar en "svara"-knapp som pushar in vad användaren svarat i svarsarrayen. Kör därefter om quizfunktionen. Ifall vi har lika många svar som quizet är långt så kommer quizet vara klart annars kommer nästa fråga.
         let answerBtn = document.createElement("button");
         answerBtn.innerText = "Svara";
         answerBtn.addEventListener ("click", () => {
+            //Om minst ett alternativ är markerat så pushas de alternativen in i en array som i sin tur skickas in i vår svarsarray....
             if (document.querySelector("[name='alternative-check']:checked")) {
                 let allAnswers = [];
                 (document.querySelectorAll("[name='alternative-check']:checked")).forEach((obj) => {
@@ -285,6 +312,7 @@ let quizFunction = (arr) => {
                 quizFunction(arr);
 
             }
+            //....annars så får man en alert om att minst ett alternativ måste väljas.
             else {
                 alert("Vänligen klicka i minst ett alternativ!");
             };
@@ -293,15 +321,15 @@ let quizFunction = (arr) => {
     }
 }
 
-/*--> Allt här nedanför är kod för att skapa sitt egna quiz på sidan. Koden är väldigt stökig och det kan finnas rader som är överflödiga. Har inte rättat koden och om man "gör fel" på sidan kan den crasha.
-Det går inte heller att radera svarsalternativ ifall man redan lagt till ett och inte heller att gå tillbaka och radera frågor man skapat. 
-*/
+//Allt här nedanför är kod för att skapa sitt egna quiz på sidan. Koden är väldigt stökig och det kan finnas rader som är överflödiga. Har inte rättat koden och om man "gör fel" på sidan kan den krasha. Det går inte heller att radera svarsalternativ ifall man redan lagt till ett och inte heller att gå tillbaka och radera frågor man skapat. Fungerar (typ) men inte helt klar...
 
 let ownQuizName = "";
+let questionsArray = [];
 
 createQuizBtn.addEventListener("click", () => {
     content.innerHTML = "";
     ownQuizName = "";
+    questionsArray = [];
     createQuizFunction();
 });
 
@@ -323,7 +351,6 @@ let createQuizFunction = () => {
     createDiv.append(document.createElement("br"), nameInputLabel, nameInput, document.createElement("br"), document.createElement("br"), addQuestionBtn);
 }
 
-let questionsArray = [];
 
 let addQuestionFunction = () => {
     let questionInput = document.createElement("input");
